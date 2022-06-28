@@ -13,7 +13,11 @@ function Scene(props) {
   
   return (
     <div className='scene-container'>
-      <p>choose something </p>
+      <p>Choose Something </p>
+      <div>
+        <input type="radio" value="Scene" name="scene" /> 
+        <input type="radio" value="AltScene" name="scene" />
+      </div>
       <button onClick ={props.onClickOptionOne}> </button>
       <button onClick ={props.onClickOptionTwo}> </button>
 
@@ -21,13 +25,5 @@ function Scene(props) {
   )
 }
 
-// Scene.propTypes {
-//   sceneId
-//   option1text
-//   option2text
-//   sceneDescription
-//   option1Result
-//   option2Result
-// }
 
 export default Scene;
