@@ -5,25 +5,25 @@ import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
 
 function Scene(props) {
 
-  // useFirestoreConnect([
-  //   {collection: props.currentChapter}
-  // ]);
-
-  const scene = useSelector(state => state.firestore.ordered.scene)
+  // const scene = useSelector(state => state.firestore.ordered.scene)
   
   return (
     <div className='scene-container'>
-      <p>Choose Something </p>
-      <div>
-        <input type="radio" value="Scene" name="scene" /> 
-        <input type="radio" value="AltScene" name="scene" />
-      </div>
-      <button onClick ={props.onClickOptionOne}> </button>
-      <button onClick ={props.onClickOptionTwo}> </button>
+      <p>{props.sceneText} </p>
+      <button onClick ={props.onClickOptionOne}>{props.optionOneText}  </button>
+      <p>Or...</p>
+      <button onClick ={props.onClickOptionTwo}>{props.optionTwoText}  </button>
 
     </div>
   )
 }
 
+Scene.propTypes = {
+  sceneText: PropTypes.string,
+  onClickOptionOne: PropTypes.func,
+  onClickOptionTwo: PropTypes.func,
+  OptionOneText: PropTypes.string,
+  OptionTwoText: PropTypes.string
+};
 
 export default Scene;
