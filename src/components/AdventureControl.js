@@ -23,8 +23,7 @@ function AdventureControl(props) {
   // const [sceneNumber, setSceneNumber ] = useState("1");
   // const [sceneText, setSceneText ] = useState("");
 
-  const [currentScene, setCurrentScene] = useState({});
-
+  const [currentScene, setCurrentScene] = useState(() => grabFirstScene()); // default to doc 0?
 
 
   // function changeScene() {
@@ -34,11 +33,21 @@ function AdventureControl(props) {
   //     console.log("Document data: ", doc.data().Scene);
   //   });   
   // }
-
+  async function grabFirstScene() {
+    const docRef = doc(db, "chapter1", "0");
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      setCurrentScene(docSnap.data());
+      return docSnap.data();
+      
+    } else {
+      return"No such document!";
+    }
+  }
   
-  async function changeScene2() {
-    const randomNum = Math.floor(1 + (Math.random() * 2)).toString();
-    const docRef = doc(db, "chapter1", randomNum);
+  async function changeScene1(nextScene) {
+    const docRef = doc(db, "chapter1", nextScene);
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
@@ -49,37 +58,42 @@ function AdventureControl(props) {
       console.log("No such document!");
     }
   }
-  // function getSceneText() {
-  //   const sceneText = currentScene.data().Scene;
-  //   console.log(sceneText);
-  //   return sceneText;
-  // }
-
-//changeScene(chapter, sceneNumber);
-//handleOptionOne =(id)=> {
-// this.props.firestone.get
-//}
-
-  return (
-    <div>
-      {/* <p>{this.props.firestore.get({collection: "chapter 1", doc: "1"})}</p> */}
-      <p>Does this show?</p>
-      <button onClick={changeScene2}>Change Scene</button>
-      <p>{currentScene.Scene}</p>
-
-    </div>
-  )
+  async function changeScene2(nextScene) {
+    const docRef = doc(db, "chapter1", nextScene);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      setCurrentScene(docSnap.data());
+      console.log("Document data:", currentScene.Scene);
+      
+    } else {
+      console.log("No such document!");
+    }
+  }
+  if (isLoaded()) {
+    return (
+      <div>
+        <p>{currentScene.SceneText}</p>
+        <button onClick={() => changeScene1(currentScene.Option1Result)}>{currentScene.Option1Text} </button>
+        <p>Or</p>
+        <button onClick={() => changeScene2(currentScene.Option2Result)}>{currentScene.Option2Text} </button>
+      </div>
+    )
+  } else { 
+    return(
+      <h2>Loading...</h2>
+    )   
+  }
 }
 
 
 export default withFirestore(AdventureControl);
 
-// function of getNewScenes
-// if one is choosen then go to db.scene.river
-// if two is choose then got to db ....desert
 
-//function changeScene 
-//  const [sceneNumber, setSceneNumber ] = useState("1");
-//return  ( 
-  //<button> onClick ()=> setSceneNumber({randomizedNumber})) </button>
-//)//setScene (()=> getNewScene)
+// SceneText: "You arive in a house and the bread is baking"
+// Option1Text: "Eat the bread"    // take you to doc 1; canada or desert
+// Option2Text: "Run!"               // take you to doc 2; spain or mars
+// Option1Result:"1"
+// Option2Result: "2"
+
+
