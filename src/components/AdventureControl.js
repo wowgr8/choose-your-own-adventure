@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-// import Scene from "Scene";
+import Scene from "./Scene";
 import { withFirestore, isLoaded } from 'react-redux-firebase';
 import firebase from 'firebase/compat/app';
 import {useSelector} from 'react-redux';  
@@ -73,10 +73,16 @@ function AdventureControl(props) {
   if (isLoaded()) {
     return (
       <div>
-        <p>{currentScene.SceneText}</p>
-        <button onClick={() => changeScene1(currentScene.Option1Result)}>{currentScene.Option1Text} </button>
+        < Scene
+        onClickOptionOne = {() => changeScene1(currentScene.Option1Result)}
+        onClickOptionTwo = {() => changeScene2(currentScene.Option2Result)}
+        sceneText = {currentScene.SceneText}
+        optionOneText = {currentScene.Option1Text}
+        optionTwoText = {currentScene.Option2Text}
+        />
+        {/* <button onClick={() => changeScene1(currentScene.Option1Result)}>{currentScene.Option1Text} </button>
         <p>Or</p>
-        <button onClick={() => changeScene2(currentScene.Option2Result)}>{currentScene.Option2Text} </button>
+        <button onClick={() => changeScene2(currentScene.Option2Result)}>{currentScene.Option2Text} </button> */}
       </div>
     )
   } else { 
