@@ -5,7 +5,6 @@ import { withFirestore, isLoaded } from 'react-redux-firebase';
 import firebase from 'firebase/compat/app';
 import {useSelector} from 'react-redux';  
 import {useFirestoreConnect} from 'react-redux-firebase';   
-//import { collection, query, where, getDocs } from "firebase/firestore";
 import { useState } from "react";
 import { doc, getDoc } from 'firebase/firestore'
 
@@ -19,20 +18,8 @@ function AdventureControl(props) {
 
   const db = firebase.firestore();
 
-  // const [chapter, setChapter ] = useState("chapter1");
-  // const [sceneNumber, setSceneNumber ] = useState("1");
-  // const [sceneText, setSceneText ] = useState("");
-
   const [currentScene, setCurrentScene] = useState(() => grabFirstScene()); // default to doc 0?
 
-
-  // function changeScene() {
-  //   const randomNum = Math.floor(Math.random() * 3).toString();
-  //   var docRef = db.collection("chapter1").doc(randomNum);
-  //   docRef.get().then((doc) => {
-  //     console.log("Document data: ", doc.data().Scene);
-  //   });   
-  // }
   async function grabFirstScene() {
     const docRef = doc(db, "chapter1", "0");
     const docSnap = await getDoc(docRef);
@@ -80,9 +67,6 @@ function AdventureControl(props) {
         optionOneText = {currentScene.Option1Text}
         optionTwoText = {currentScene.Option2Text}
         />
-        {/* <button onClick={() => changeScene1(currentScene.Option1Result)}>{currentScene.Option1Text} </button>
-        <p>Or</p>
-        <button onClick={() => changeScene2(currentScene.Option2Result)}>{currentScene.Option2Text} </button> */}
       </div>
     )
   } else { 
@@ -92,14 +76,4 @@ function AdventureControl(props) {
   }
 }
 
-
 export default withFirestore(AdventureControl);
-
-
-// SceneText: "You arive in a house and the bread is baking"
-// Option1Text: "Eat the bread"    // take you to doc 1; canada or desert
-// Option2Text: "Run!"               // take you to doc 2; spain or mars
-// Option1Result:"1"
-// Option2Result: "2"
-
-
